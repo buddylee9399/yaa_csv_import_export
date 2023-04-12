@@ -54,6 +54,8 @@ group :development, :test do
 end
 
 group :development do
+  gem "faker"
+
   gem "annotate"
 
   gem "better_errors"
