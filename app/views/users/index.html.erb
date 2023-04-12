@@ -1,0 +1,24 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Users</h1>
+
+<h3>Download File</h3>
+<%= link_to "Report", users_path(format: "csv"), class: 'btn btn-secondary' %>
+|
+<%= link_to "New user", new_user_path %>
+<h3>Import Users</h3>
+<%= form_tag import_users_path, multipart: true do %>
+  <%= file_field_tag :file, accept: '.csv' %>
+  <%#= text_area_tag :file %>
+  <%= submit_tag "Upload Users" %>
+<% end %>
+
+<div id="users">
+  <% @users.each do |user| %>
+    <%= render user %>
+    <p>
+      <%= link_to "Show this user", user %>
+    </p>
+  <% end %>
+</div>
+
