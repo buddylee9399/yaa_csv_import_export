@@ -336,18 +336,53 @@ class User < ApplicationRecord
 # Episode #035 - Importing and Exporting CSV Data
 - IMPORTING
 - require 'csv' to app.rb
-- in the post controller
-
+- importing updates or new, not duplicates
+- in the view
 ```
-  def index
-    @posts = Post.all
-    respond_to do |format|
-      format.html
-      # format.csv { render json: @users.to_csv }
-      # format.csv { send_data @users.to_csv, filename: "user-#{Date.today}.csv" }
-      format.csv { send_data Post.to_csv(@posts), filename: "post-#{Date.today}.csv" }
-    end    
+<%= form_tag import_users_path, multipart: true do %>
+  <%= file_field_tag :file, accept: '.csv' %>
+  <%#= text_area_tag :file %>
+  <%= submit_tag "Upload Users" %>
+<% end %>
+```
+- in the routes
+```
+  resources :users do 
+    collection {post :import}
   end
 ```
+- in the controller
+```
+  def import
+    file = params[:file]
+    return redirect_to users_path, notice: 'Only CSV please' unless file.content_type == 'text/csv'
+    User.import(file)
+    redirect_to users_path, notice: "Users imported"
+  end
+```
+- update user.rb
+```
+	# from drifting ruby #35
+	def self.import(file)
+			# binding.irb
+		# p "This is the file #{file}"
+		CSV.foreach(file.path, headers: true) do |row|
+			user_hash = row.to_hash
+			user = find_or_create_by!(email: user_hash["email"])
+			user.update(user_hash)
+		end
+	end
+```
+- refresh and test it out
+- IT WORKED
 
-- updating the 
+# CSV Data Grid Speedrun in Ruby On Rails 7
+- he used https://www.mockaroo.com/
+- he used https://handsontable.com/demo
+
+# CSV Import Speedrun In Ruby On Rails 7
+- used this csv generator
+- https://www.mockaroo.com/
+- used chartkick
+
+## THE END

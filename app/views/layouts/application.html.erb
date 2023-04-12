@@ -11,21 +11,10 @@
   </head>
 
   <body>
-<%= render 'shared/navbar' %>
-<div class="container">
-  <%= yield %>      
-</div>
+    <%= render 'shared/navbar' %>
+    <div class="container">
+      <%= yield %>      
+    </div>
 
-<div class="container">
-        
-</div>
-
-    <nav>
-      <ul>
-        <li><%= link_to 'Users', users_path%></li>
-        <li><%= link_to 'Posts', posts_path%></li>
-      </ul>
-    </nav>
-    
   </body>
 </html>

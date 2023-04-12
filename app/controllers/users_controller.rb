@@ -69,9 +69,9 @@ class UsersController < ApplicationController
   def import
     file = params[:file]
     return redirect_to users_path, notice: 'Only CSV please' unless file.content_type == 'text/csv'
-    # User.import(file')
-    CsvImportUsersService.new.call(file)
-    redirect_to root_url, notice: "Users imported"
+    User.import(file)
+    # CsvImportUsersService.new.call(file)
+    redirect_to users_path, notice: "Users imported"
   end
 
   private

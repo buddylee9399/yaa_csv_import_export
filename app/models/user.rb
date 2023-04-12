@@ -17,13 +17,25 @@ class User < ApplicationRecord
 		"#{first_name} #{last_name}"
 	end
 
+	# def self.import(file)
+	# 	CSV.foreach(file.path, headers: true) do |row|
+	# 		User.create! row.to_hash
+	# 		# users = find_by_id(row["id"]) || new
+	# 		# users.attributes = row.to_hash.slice(*accessible_attributes)
+	# 	end
+	# end
+
+	# from drifting ruby #35
 	def self.import(file)
+			# binding.irb
+		# p "This is the file #{file}"
 		CSV.foreach(file.path, headers: true) do |row|
-			User.create! row.to_hash
-			# users = find_by_id(row["id"]) || new
-			# users.attributes = row.to_hash.slice(*accessible_attributes)
+			user_hash = row.to_hash
+			user = find_or_create_by!(email: user_hash["email"])
+			user.update(user_hash)
 		end
 	end
+
 
 	# from drifting ruby #35
 	# def self.to_csv(fields = column_names, options = {})

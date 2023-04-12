@@ -13,6 +13,12 @@ def menu_items
   }, {
     name: 'Privacy',
     path: privacy_path,
+  }, {
+    name: 'Users',
+    path: users_path,
+  }, {
+    name: 'Posts',
+    path: posts_path,
   },].map do |item|
     {
       name: item[:name],

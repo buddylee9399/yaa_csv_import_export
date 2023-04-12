@@ -17,9 +17,9 @@ class CsvImportUsersService
 
 	# from drifting ruby #35
 	def call(file)
+			# binding.irb
 		CSV.foreach(file.path, headers: true) do |row|
 			user_hash = row.to_hash
-			# binding.irb
 			user = User.find_or_create_by!(email: user_hash["email"])
 			user.update(user_hash)
 		end
